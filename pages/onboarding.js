@@ -1,0 +1,177 @@
+import axios from "axios";
+import React, { useState } from "react";
+import { Col, Row } from "react-bootstrap";
+
+import onboarding from "../../config-yml/modules/onboarding.yml";
+import { Layout } from "../components/Layout";
+
+export default function referent() {
+  return (
+    <Layout>
+      <br />
+      <OnboardingSection />
+      <br />
+    </Layout>
+  );
+}
+
+function OnboardingSection() {
+  const [showMessage, setShowMessage] = useState(false);
+  const [formState, setFormState] = useState({
+    email: "",
+    firstname: "",
+    job: "",
+    name: "",
+    type: "référent",
+  });
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setFormState({
+      ...formState,
+      [event.target.name]: value,
+    });
+  };
+  const clearState = () => {
+    setFormState({
+      email: "",
+      firstname: "",
+      job: "",
+      name: "",
+      type: "",
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const user = {
+      email: formState.email,
+      name: formState.name,
+      type: formState.type,
+    };
+    axios
+      .post(process.env.NEXT_PUBLIC_STRAPI_URL + "contacts", user)
+      .then(() => {
+        setShowMessage(true);
+        clearState();
+      });
+  };
+  return (
+    <Row className="no-gutters">
+      <Col>
+        <h1 className="pb-4">{onboarding.title}</h1>
+        <div className="description pb-md-5">{onboarding.description}</div>
+        <Row className="py-5">
+          <Col md={6}>
+            <form action="" method="POST" onSubmit={handleSubmit}>
+              <h2 className="pb-4">{onboarding.form_section_title}</h2>
+              <Row className="flex-wrap align-items-center">
+                <Col md={6} className="flex flex-wrap">
+                  <label htmlFor="name">{onboarding.register_lastname}</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formState.name}
+                    onChange={handleChange}
+                    className="mb-4 w-100"
+                    required
+                  />
+                </Col>
+                <Col md={6} className="flex flex-wrap">
+                  <label htmlFor="firstname">
+                    {onboarding.register_firstname}
+                  </label>
+                  <input
+                    type="text"
+                    name="firstname"
+                    className="mb-4 w-100"
+                    value={formState.firstname}
+                    onChange={handleChange}
+                    required
+                  />
+                </Col>
+                <Col md={6} className="flex flex-wrap">
+                  <label htmlFor="email">{onboarding.register_email}</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formState.email}
+                    onChange={handleChange}
+                    className="mb-4 w-100"
+                    required
+                  />
+                </Col>
+                <Col md={6} className="flex flex-wrap">
+                  <label htmlFor="job">{onboarding.register_job}</label>
+                  <input
+                    type="text"
+                    name="job"
+                    className="mb-4 w-100"
+                    value={formState.job}
+                    onChange={handleChange}
+                  />
+                </Col>
+              </Row>
+              <Col>
+                <Row className="no-gutters w-100 justify-content-center mt-3 mb-3 mb-md-0">
+                  <input
+                    type="submit"
+                    value="Envoyer ma demande"
+                    style={{
+                      background: "darkblue",
+                      border: "none",
+                      color: "white",
+                      padding: "8px 24px",
+                    }}
+                  />
+                </Row>
+                <div className="text-center w-100 pt-3 pb-5">
+                  {showMessage && "Votre message a été envoyé."}
+                </div>
+              </Col>
+            </form>
+          </Col>
+          <Col md={6}>
+            <h2 className="pb-4">{onboarding.list_section_title}</h2>
+            <div className="no-gutters">
+              <ul>
+                {onboarding.list_section_items &&
+                  onboarding.list_section_items.map((advantage, index) => (
+                    <li key={index} xs={6}>
+                      <p className="text-darkgray">{advantage}</p>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          </Col>
+        </Row>
+        <Row className="w-100 no-gutters pt-5">
+          {onboarding.testimony &&
+            onboarding.testimony.map((testimony, index) => (
+              <Row
+                key={index}
+                className="w-100 no-gutters justify-content-between align-items-center pb-5"
+              >
+                <Col
+                  md={8}
+                  className="bg-gray"
+                  style={{
+                    borderLeft: "5px solid darkblue",
+                    padding: "32px 44px",
+                  }}
+                >
+                  <h3>{testimony.title}</h3>
+                  <p>{testimony.content}</p>
+                </Col>
+                <Col md={4} className="no-gutters px-0">
+                  <img
+                    src={"../assets/imgs/testimony/" + testimony.image}
+                    alt={`Onboarding testimony ${index}`}
+                    className="float-right testimony-onboarding-img"
+                  />
+                </Col>
+              </Row>
+            ))}
+        </Row>
+      </Col>
+    </Row>
+  );
+}
