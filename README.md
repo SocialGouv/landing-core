@@ -10,7 +10,7 @@ yarn dev
 ```
 L'objectif est que n'importe quel projet de la fabrique puisse utiliser cette landing page facilement intégrable.
 
-## C'est quoi un module ?
+## Les modules ?
 Les modules sont les différents composants de la landing page qu'il faudra modifier.
 La liste des modules actuellement :
  - Actualites (config-yml/modules/articles.yml) 
@@ -36,9 +36,9 @@ La liste des modules actuellement :
     - Relancer le projet : yarn dev
 
 
-2) Pour les modules d'actualités et Onboarding (référent), il y a des pages spécifiques, les menus sont ajoutés dans config-yml/nav.yml et leurs pages sont créees dans le dossier : src/pages/
+2) Pour les modules d'actualités et Onboarding (référent), il y a des pages spécifiques, les menus sont ajoutés dans config-yml/commons/nav.yml et leurs pages sont créees dans le dossier : src/pages/
 
-
+3) Pour le module de Stats, le menu est ajouté dans config-yml/commons/nav.yml, la page est créee dans le dossier : src/pages/ (stats.js) et les graphes sont paramètables depuis stats-graph.yml (config-yml/modules)
 ## Comment contribuer ? (dev)
 Pour créer un module :
 
