@@ -210,9 +210,7 @@ function OnboardingSection() {
   );
 }
 function Instagram({ posts }) {
-  const token = process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN;
   return (
-    token &&
     instagram.display && (
       <InstagramPostList title={instagram.title} posts={posts} />
     )
@@ -221,10 +219,15 @@ function Instagram({ posts }) {
 
 export async function getServerSideProps() {
   const token = process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN;
-  const res = await fetch(
-    "https://graph.instagram.com/me/media?fields=id,username,permalink,media_url,thumbnail_url,media_type&access_token=" +
-      token
-  );
-  const getData = await res.json();
-  return { props: { posts: getData.data.slice(0, 6) } };
+  let getData = {};
+
+  if (token) {
+    const res = await fetch(
+      "https://graph.instagram.com/me/media?fields=id,username,permalink,media_url,thumbnail_url,media_type&access_token=" +
+        token
+    );
+    getData = await res.json();
+  }
+
+  return { props: { posts: getData.data ? getData.data.slice(0, 6) : [] } };
 }
