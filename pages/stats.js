@@ -11,8 +11,10 @@ import {
   YAxis,
 } from "recharts";
 
-import stats from "../../config-yml/modules/stats-graph.yml";
+import { page } from "../../config-yml/modules/stats.yml";
 import { Layout } from "../components/Layout";
+
+const stats = page;
 
 // convert yaml format to recharts format
 const toGraphData = ({ valeurs }) =>
@@ -87,7 +89,7 @@ export default function Stats() {
     <Layout>
       <div title="Statistiques" className="py-5">
         <h1 className="pb-5">{stats.title}</h1>
-        {stats.kpis.map((kpi, index) => {
+        {stats.graphs.map((kpi, index) => {
           switch (kpi.affichage) {
             case "graph":
               if (kpi.type === "barChart") {

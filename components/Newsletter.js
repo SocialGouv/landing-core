@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
+import newsletter from "../../config-yml/modules/newsletter";
+
 const Newsletter = ({ title, subtitle }) => {
   const [state, setState] = useState({ email: "", type: "newsletter" });
   const [showMessage, setShowMessage] = useState(false);
@@ -20,7 +22,7 @@ const Newsletter = ({ title, subtitle }) => {
       email: state.email,
       type: state.type,
     };
-    axios.post(process.env.NEXT_PUBLIC_API_URL + "contacts", user).then(() => {
+    axios.post(newsletter.url, user).then(() => {
       setShowMessage(true);
       clearState();
     });

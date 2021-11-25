@@ -8,7 +8,7 @@ import articles from "../../config-yml/modules/articles.yml";
 import instagram from "../../config-yml/modules/instagram.yml";
 import newsletter from "../../config-yml/modules/newsletter.yml";
 import onboarding from "../../config-yml/modules/onboarding.yml";
-import stats from "../../config-yml/modules/stats.yml";
+import { home } from "../../config-yml/modules/stats.yml";
 import { ArticleCard } from "../components/ArticleCard";
 import { Header } from "../components/Header";
 import InstagramPostList from "../components/InstagramPostList";
@@ -16,6 +16,8 @@ import { Layout } from "../components/Layout";
 import Newsletter from "../components/Newsletter";
 import { Onboarding } from "../components/Onboarding";
 import { Stats } from "../components/Stats";
+
+const stats = home;
 
 export default function index({ posts }) {
   return (
