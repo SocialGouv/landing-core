@@ -71,7 +71,7 @@ function Statistic() {
           xl={{ offset: 1, span: 11 }}
           className="d-flex justify-content-between w-100 align-items-center flex-wrap"
         >
-          {stats.stats.map((stat, index) => (
+          {stats.kpis.map((stat, index) => (
             <Col xl={4} md={3} key={index} className="mb-4 mb-md-0">
               <Stats
                 title={stat.title}
@@ -220,7 +220,7 @@ function Instagram({ posts }) {
 }
 
 export async function getServerSideProps() {
-  const token = process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN;
+  const token = process.env.INSTAGRAM_TOKEN;
   let getData = {};
 
   if (token) {

@@ -39,6 +39,7 @@ La liste des modules actuellement :
 2) Pour les modules d'actualités et Onboarding (référent), il y a des pages spécifiques, les menus sont ajoutés dans config-yml/commons/nav.yml et leurs pages sont créees dans le dossier : src/pages/
 
 3) Pour le module de Stats, le menu est ajouté dans config-yml/commons/nav.yml, la page est créee dans le dossier : src/pages/ (stats.js) et les graphes sont paramètables depuis stats-graph.yml (config-yml/modules)
+
 ## Comment contribuer ? (dev)
 Pour créer un module :
 

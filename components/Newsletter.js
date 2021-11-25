@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
-import newsletter from "../../config-yml/modules/newsletter";
+import newsletter from "../../config-yml/modules/newsletter.yml"
 
 const Newsletter = ({ title, subtitle }) => {
   const [state, setState] = useState({ email: "", type: "newsletter" });
