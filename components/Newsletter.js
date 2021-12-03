@@ -2,27 +2,31 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
-import newsletter from "../../config-yml/modules/newsletter.yml"
+import newsletter from "../../config-yml/modules/newsletter.yml";
 
 const Newsletter = ({ title, subtitle }) => {
-  const [state, setState] = useState({ email: "", type: "newsletter" });
+  const [state, setState] = useState({ email: "" });
   const [showMessage, setShowMessage] = useState(false);
   const handleChange = (event) => {
-    setState({ email: event.target.value, type: state.type });
+    setState({ email: event.target.value });
   };
   const clearState = () => {
     setState({
       email: "",
-      type: "",
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = {
-      email: state.email,
-      type: state.type,
-    };
-    axios.post(newsletter.url, user).then(() => {
+    const body = {};
+
+    const emailFieldname = newsletter.email_fieldname;
+    body[emailFieldname] = state.email;
+
+    newsletter.fields.forEach((field) => {
+      body[field.name] = field.value;
+    });
+
+    axios.post(newsletter.url, body).then(() => {
       setShowMessage(true);
       clearState();
     });
@@ -55,7 +59,15 @@ const Newsletter = ({ title, subtitle }) => {
           />
         </Col>
       </Row>
-      <div>{showMessage && "Votre message a été envoyé."}</div>
+      <div
+        style={{
+          color: "green",
+        }}
+      >
+        <i>
+          {showMessage && "Votre email a bien été ajouté à notre newsletter."}
+        </i>
+      </div>
     </form>
   );
   return renderNewsletter;
