@@ -15,15 +15,40 @@ export default function referent() {
   );
 }
 
+function getInitialState() {
+  const state = {};
+
+  onboarding.fields.forEach((field) => {
+    state[field.name] = field.value;
+  });
+
+  return state;
+}
+
 function OnboardingSection() {
   const [showMessage, setShowMessage] = useState(false);
-  const [formState, setFormState] = useState({
-    email: "",
-    firstname: "",
-    job: "",
-    name: "",
-    type: "référent",
-  });
+  const [formState, setFormState] = useState(getInitialState());
+
+  const getFields = () => {
+    return onboarding.fields
+      .filter((field) => field.editable)
+      .map((field) => {
+        return (
+          <Col md={field.col || 6} key={field.name} className="flex flex-wrap">
+            <label htmlFor={field.name}>{field.label}</label>
+            <input
+              type={field.type}
+              name={field.name}
+              value={formState[field.name]}
+              onChange={handleChange}
+              className="mb-4 w-100"
+              required={field.required}
+            />
+          </Col>
+        );
+      });
+  };
+
   const handleChange = (event) => {
     const value = event.target.value;
     setFormState({
@@ -31,29 +56,19 @@ function OnboardingSection() {
       [event.target.name]: value,
     });
   };
+
   const clearState = () => {
-    setFormState({
-      email: "",
-      firstname: "",
-      job: "",
-      name: "",
-      type: "",
-    });
+    setFormState(getInitialState());
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = {
-      email: formState.email,
-      name: formState.name,
-      type: formState.type,
-    };
-    axios
-      .post(process.env.NEXT_PUBLIC_STRAPI_URL + "contacts", user)
-      .then(() => {
-        setShowMessage(true);
-        clearState();
-      });
+    axios.post(onboarding.url, formState).then(() => {
+      setShowMessage(true);
+      clearState();
+    });
   };
+
   return (
     <Row className="no-gutters">
       <Col>
@@ -63,53 +78,7 @@ function OnboardingSection() {
           <Col md={6}>
             <form action="" method="POST" onSubmit={handleSubmit}>
               <h2 className="pb-4">{onboarding.form_section_title}</h2>
-              <Row className="flex-wrap align-items-center">
-                <Col md={6} className="flex flex-wrap">
-                  <label htmlFor="name">{onboarding.register_lastname}</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formState.name}
-                    onChange={handleChange}
-                    className="mb-4 w-100"
-                    required
-                  />
-                </Col>
-                <Col md={6} className="flex flex-wrap">
-                  <label htmlFor="firstname">
-                    {onboarding.register_firstname}
-                  </label>
-                  <input
-                    type="text"
-                    name="firstname"
-                    className="mb-4 w-100"
-                    value={formState.firstname}
-                    onChange={handleChange}
-                    required
-                  />
-                </Col>
-                <Col md={6} className="flex flex-wrap">
-                  <label htmlFor="email">{onboarding.register_email}</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formState.email}
-                    onChange={handleChange}
-                    className="mb-4 w-100"
-                    required
-                  />
-                </Col>
-                <Col md={6} className="flex flex-wrap">
-                  <label htmlFor="job">{onboarding.register_job}</label>
-                  <input
-                    type="text"
-                    name="job"
-                    className="mb-4 w-100"
-                    value={formState.job}
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Row>
+              <Row className="flex-wrap align-items-center">{getFields()}</Row>
               <Col>
                 <Row className="no-gutters w-100 justify-content-center mt-3 mb-3 mb-md-0">
                   <input
@@ -124,7 +93,7 @@ function OnboardingSection() {
                   />
                 </Row>
                 <div className="text-center w-100 pt-3 pb-5">
-                  {showMessage && "Votre message a été envoyé."}
+                  {showMessage && "Votre demande a bien été envoyée."}
                 </div>
               </Col>
             </form>
