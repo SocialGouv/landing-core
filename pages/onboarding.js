@@ -37,7 +37,7 @@ function OnboardingSection() {
           <Col md={field.col || 6} key={field.name} className="flex flex-wrap">
             <label htmlFor={field.name}>{field.label}</label>
             <input
-              type={field.type}
+              type={field.type || "text"}
               name={field.name}
               value={formState[field.name]}
               onChange={handleChange}
