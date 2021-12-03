@@ -22,7 +22,7 @@ const Newsletter = ({ title, subtitle }) => {
     const emailFieldname = newsletter.email_fieldname;
     body[emailFieldname] = state.email;
 
-    newsletter.fields.forEach((field) => {
+    newsletter.hidden_fields.forEach((field) => {
       body[field.name] = field.value;
     });
 
