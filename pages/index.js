@@ -129,7 +129,7 @@ function Articles() {
         breakpoint: 1024,
         settings: {
           arrows: false,
-          slidesToShow: 3,
+          slidesToShow: articles.articles.length < 3 ? articles.articles.length : 3,
         },
       },
       {
@@ -149,7 +149,7 @@ function Articles() {
       },
     ],
     slidesToScroll: 1,
-    slidesToShow: 3,
+    slidesToShow: articles.articles.length < 3 ? articles.articles.length : 3,
     speed: 500,
   };
   return (
